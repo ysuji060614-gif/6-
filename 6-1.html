@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계 자연환경 상품 판매 계획 도우미</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Gaegu & Jua for cute Korean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Jua', sans-serif;
+            background: linear-gradient(135deg, #fef6e4 0%, #f3e8ff 50%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+        .title-font {
+            font-family: 'Gaegu', cursive;
+        }
+        /* Custom scrollbar for cute vibes */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="text-slate-700 flex flex-col min-h-screen">
+
+    <!-- Header Section -->
+    <header class="bg-white/85 backdrop-blur-md shadow-sm border-b border-pink-100 py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
+                <div class="bg-pink-400 text-white p-2.5 rounded-2xl shadow-md rotate-[-3deg] hover:rotate-0 transition-transform">
+                    <i data-lucide="globe-2" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl text-pink-500 font-bold tracking-wide">세계 자연환경 상품 판매 계획</h1>
+                    <p class="text-xs text-slate-400">초등학교 6학년 사회 탐구 도우미 ✈️</p>
+                </div>
+            </div>
+            <button onclick="goHome()" class="bg-amber-100 hover:bg-amber-200 text-amber-700 px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center gap-1.5">
+                <i data-lucide="home" class="w-4 h-4"></i> 처음으로
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-3xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center items-center">
+
+        <!-- HOME VIEW (Choice Screen) -->
+        <div id="home-view" class="w-full text-center space-y-8 py-6">
+            <div class="space-y-3 animate-float">
+                <div class="inline-block bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-2 shadow-sm">
+                    🌍 어떤 나라의 자연환경을 알아볼까요?
+                </div>
+                <h2 class="text-3xl md:text-4xl text-slate-800 font-bold leading-snug">
+                    세계의 다양한 자연환경에서 생활하는<br/>사람들에게 필요한 상품 판매 계획 세우기!
+                </h2>
+                <p class="text-slate-500 text-base md:text-lg max-w-xl mx-auto">
+                    알아보고 싶은 나라가 있다면 직접 입력하고, 생각이 안 난다면 랜덤으로 뽑아보세요!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto pt-4">
+                <!-- Choice 1: Custom Input -->
+                <div onclick="openCustomInput()" class="group bg-white/90 hover:bg-white border-2 border-pink-200 hover:border-pink-400 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all cursor-pointer flex flex-col items-center text-center transform hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-pink-50 group-hover:bg-pink-100 rounded-2xl flex items-center justify-center text-pink-500 mb-4 transition-colors">
+                        <i data-lucide="search" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">원하는 나라가 있어요!</h3>
+                    <p class="text-sm text-slate-400">궁금한 나라 이름을 직접 적어서<br/>자연환경과 특징을 바로 확인해요.</p>
+                </div>
+
+                <!-- Choice 2: Random Pick -->
+                <div onclick="startRandomPick()" class="group bg-white/90 hover:bg-white border-2 border-sky-200 hover:border-sky-400 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all cursor-pointer flex flex-col items-center text-center transform hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-sky-50 group-hover:bg-sky-100 rounded-2xl flex items-center justify-center text-sky-500 mb-4 transition-colors">
+                        <i data-lucide="dice-5" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">랜덤으로 나라 뽑기!</h3>
+                    <p class="text-sm text-slate-400">랜덤으로 행운의 나라를 뽑아<br/>새로운 모험을 시작해요.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUSTOM INPUT VIEW -->
+        <div id="custom-input-view" class="w-full hidden space-y-6">
+            <div class="bg-white/90 border-2 border-pink-200 p-6 md:p-8 rounded-3xl shadow-xl text-center space-y-6">
+                <div class="w-16 h-16 bg-pink-100 text-pink-500 rounded-2xl mx-auto flex items-center justify-center">
+                    <i data-lucide="edit-3" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">어떤 나라를 알아볼까요?</h3>
+                    <p class="text-slate-500 text-sm">알고 싶은 나라 이름을 입력해 주세요 (예: 노르웨이, 브라질, 스위스 등)</p>
+                </div>
+                
+                <div class="max-w-md mx-auto flex gap-3">
+                    <input type="text" id="country-input" placeholder="나라 이름을 입력하세요 (예: 호주)" 
+                        class="flex-grow px-5 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-pink-400 focus:outline-none text-lg shadow-inner bg-slate-50"
+                        onkeypress="handleCustomKeyPress(event)">
+                    <button onclick="submitCustomCountry()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-md transition-all flex items-center gap-2">
+                        확인 <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="pt-2 flex justify-center gap-4">
+                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center gap-1">
+                        <i data-lucide="home" class="w-4 h-4"></i> 처음으로 돌아가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RANDOM PICKER VIEW -->
+        <div id="random-picker-view" class="w-full hidden space-y-6 text-center">
+            <div class="bg-white/90 border-2 border-sky-200 p-8 md:p-12 rounded-3xl shadow-xl space-y-8 relative overflow-hidden">
+                <div class="absolute top-4 right-4 bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs font-bold">
+                    🎲 랜덤 뽑기
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-slate-400 font-medium">행운의 뽑힌 국가는?! 두구두구...</p>
+                    <div id="random-name-box" class="py-8 bg-sky-50/60 rounded-3xl border border-sky-100 flex items-center justify-center">
+                        <span id="random-display-name" class="text-4xl md:text-6xl font-extrabold text-sky-600 tracking-wide">노르웨이</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
+                    <button onclick="pickRandomCountry()" class="w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold px-6 py-4 rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 text-lg">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i> 다시 뽑기
+                    </button>
+                    <button onclick="selectCurrentRandomCountry()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-4 rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i> 선택하기
+                    </button>
+                </div>
+
+                <div class="pt-2 flex justify-center gap-4">
+                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center gap-1">
+                        <i data-lucide="home" class="w-4 h-4"></i> 처음으로 돌아가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULT VIEW -->
+        <div id="result-view" class="w-full hidden space-y-6">
+            <div class="bg-white/95 border-2 border-emerald-200 p-6 md:p-8 rounded-3xl shadow-2xl space-y-6 relative">
+                <!-- Header Badge -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl font-bold" id="result-flag">
+                            🏳️
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg" id="result-continent">아시아</span>
+                            <h2 class="text-3xl font-extrabold text-slate-800 mt-1" id="result-country-name">대한민국</h2>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="goHome()" class="bg-amber-100 hover:bg-amber-200 text-amber-700 text-xs px-3 py-2 rounded-xl font-bold flex items-center gap-1 transition-all">
+                            <i data-lucide="home" class="w-3.5 h-3.5"></i> 처음으로
+                        </button>
+                        <button onclick="goBackToSelection()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs px-3 py-2 rounded-xl font-bold flex items-center gap-1 transition-all">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 다른 나라 선택
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Landform Card -->
+                    <div class="bg-amber-50/70 border border-amber-100 p-5 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-amber-700 font-bold text-lg">
+                            <i data-lucide="mountain" class="w-5 h-5 text-amber-600"></i> 유명한 지형
+                        </div>
+                        <p class="text-slate-700 font-medium text-base pl-7" id="result-landform">정보 불러오는 중...</p>
+                    </div>
+
+                    <!-- Climate Card -->
+                    <div class="bg-sky-50/70 border border-sky-100 p-5 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-sky-700 font-bold text-lg">
+                            <i data-lucide="cloud-sun" class="w-5 h-5 text-sky-600"></i> 기후 환경
+                        </div>
+                        <p class="text-slate-700 font-medium text-base pl-7" id="result-climate">정보 불러오는 중...</p>
+                    </div>
+                </div>
+
+                <!-- Characteristics Card -->
+                <div class="bg-pink-50/70 border border-pink-100 p-5 rounded-2xl space-y-3">
+                    <div class="flex items-center gap-2 text-pink-700 font-bold text-lg">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-pink-600"></i> 나라의 특징 (2가지)
+                    </div>
+                    <ul class="space-y-2 pl-7 text-slate-700 text-base font-medium list-disc" id="result-characteristics">
+                        <li>정보 불러오는 중...</li>
+                    </ul>
+                </div>
+
+                <!-- AI / Info Notice -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center">
+                    <p class="text-xs text-slate-500">
+                        💡 <strong>아이디어 쑥쑥!</strong> 위 자연환경과 특징을 바탕으로 이 나라 사람들에게 어떤 상품이 인기가 많을지 상상하고 판매 계획을 세워보세요!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-400">
+        초등학교 6학년 사회과 탐구 학습용 웹 애플리케이션
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Comprehensive 100 Popular World Countries dataset with accurate 6th-grade level climate terms and specific 2 characteristics
+        const countryDatabase = {
+            "대한민국": { continent: "아시아", landform: "태백산맥, 한강 유역, 삼면이 바다인 해안", climate: "온대 기후", characteristics: ["사계절의 변화가 뚜렷하며 산지가 국토의 많은 부분을 차지합니다.", "발달된 IT 기술과 K-컬처 등 한류 문화의 중심지입니다."], flag: "🇰🇷" },
+            "미국": { continent: "북아메리카", landform: "그랜드 캐니언, 미시시피강, 로키산맥", climate: "온대 기후, 냉대 기후, 건조 기후", characteristics: ["국토가 매우 넓어 지역마다 사막, 초원, 고산 등 다양한 지형이 나타납니다.", "세계 경제와 문화의 중심지로 다양한 문화가 공존합니다."], flag: "🇺🇸" },
+            "영국": { continent: "유럽", landform: "템스강, 페닌산맥, 완만한 구릉지", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["사계절이 온화하고 일년 내내 비가 고르게 내리는 서안 해양성 기후입니다.", "런던의 빅벤과 타워브리지 등 오랜 역사와 전통을 간직한 명소가 많습니다."], flag: "🇬🇧" },
+            "프랑스": { continent: "유럽", landform: "알프스산맥, 센강, 세베니산맥", climate: "온대 기후 (서안 해양성 및 지중해성 기후)", characteristics: ["세계적인 예술과 패션의 중심지이며 와인과 치즈 등 농업이 발달했습니다.", "에펠탑과 루브르 박물관 등 문화유산이 풍부합니다."], flag: "🇫🇷" },
+            "독일": { continent: "유럽", landform: "라인강, 알프스 북부 고원지대", climate: "냉대 기후, 온대 기후", characteristics: ["유럽의 중심에 위치하여 자동차 산업과 제조업이 매우 발달했습니다.", "울창한 검은 숲과 아름다운 중세 성들이 많이 남아 있습니다."], flag: "🇩🇪" },
+            "이탈리아": { continent: "유럽", landform: "아펜니노산맥, 베수비오 화산, 포강 유역", climate: "온대 기후 (지중해성 기후)", characteristics: ["장화 모양의 독특한 반도 지형이며 지중해의 따뜻하고 건조한 날씨를 보입니다.", "고대 로마 유적과 르네상스 예술의 발상지로 유명합니다."], flag: "🇮🇹" },
+            "스페인": { continent: "유럽", landform: "메세타 고원, 피레네산맥", climate: "온대 기후 (지중해성 기후), 건조 기후", characteristics: ["여름에는 볕이 강하고 덥지만 겨울에는 온화한 지중해성 기후가 나타납니다.", "올리브와 오렌지 등 지중해성 농업이 매우 활발합니다."], flag: "🇪🇸" },
+            "캐나다": { continent: "북아메리카", landform: "로키산맥, 오대호, 광활한 침엽수림(타이가)", climate: "냉대 기후, 한대 기후", characteristics: ["국토의 북쪽이 추운 냉·한대 기후여서 침엽수림인 타이가가 넓게 펼쳐져 있습니다.", "세계적인 메이플 시럽 생산국이자 청정 자연환경을 자랑합니다."], flag: "🇨🇦" },
+            "호주": { continent: "오세아니아", landform: "그레이트디바이딩산맥, 울루루 바위, 대보초", climate: "건조 기후, 온대 기후, 열대 기후 (사바나)", characteristics: ["내륙 지역에 거대한 사막과 건조 지대가 넓게 펼쳐져 있습니다.", "캥거루와 코알라 등 독특한 고유 동물들이 살고 있습니다."], flag: "🇦🇺" },
+            "브라질": { continent: "남아메리카", landform: "아마존강 유역, 브라질 고원", climate: "열대 기후 (열대 우림, 사바나 기후)", characteristics: ["세계에서 가장 넓은 열대 우림인 아마존강 유역이 있어 '지구의 허파'로 불립니다.", "축구의 열기가 뜨겁고 커피 원두의 세계적인 생산지입니다."], flag: "🇧🇷" },
+            "일본": { continent: "아시아", landform: "후지산, 일본 열도 화산 지형", climate: "온대 기후, 냉대 기후", characteristics: ["화산 활동이 활발하여 온천이 많고 지진이 자주 일어나는 섬나라입니다.", "지형적 특징을 살린 독창적인 애니메이션과 전자 산업이 발달했습니다."], flag: "🇯🇵" },
+            "중국": { continent: "아시아", landform: "히말라야산맥, 칭하이티베트 고원, 황하강", climate: "건조 기후, 냉대 기후, 온대 기후, 고산 기후", characteristics: ["국토가 매우 넓어 사막, 고원, 평야 등 다양한 지형과 기후가 공존합니다.", "세계에서 인구가 가장 많으며 유구한 역사적 유적을 지니고 있습니다."], flag: "🇨🇳" },
+            "노르웨이": { continent: "유럽", landform: "송네 피오르, 스칸디나비아산맥", climate: "온대 기후, 냉대 기후, 한대 기후", characteristics: ["빙하가 깎아 만든 깊고 좁은 바닷길인 피오르 해안이 발달해 있습니다.", "풍부한 수력 발전과 북해의 석유 자원을 바탕으로 생활합니다."], flag: "🇳🇴" },
+            "스웨덴": { continent: "유럽", landform: "스칸디나비아산맥, 발트해 연안 빙하 호수", climate: "냉대 기후, 한대 기후", characteristics: ["국토의 상당 부분이 울창한 침엽수림과 호수로 이루어져 있습니다.", "복지 제도가 잘 발달해 있으며 독창적인 가구 디자인이 유명합니다."], flag: "🇸🇪" },
+            "핀란드": { continent: "유럽", landform: "수많은 호수와 타이가 숲", climate: "냉대 기후, 한대 기후", characteristics: ["'호수의 나라'라고 불릴 만큼 국토에 아름다운 호수가 많습니다.", "겨울이 길고 추우며 전통적인 사우나 문화가 매우 발달했습니다."], flag: "🇫🇮" },
+            "스위스": { continent: "유럽", landform: "알프스산맥, 빙하 호수", climate: "고산 기후, 온대 기후", characteristics: ["높고 험준한 산지와 깊은 골짜기가 펼쳐져 있어 스키와 등산이 유명합니다.", "시계 제조와 정밀 기계 공업, 알프스 관광업이 크게 발달했습니다."], flag: "🇨🇭" },
+            "오스트리아": { continent: "유럽", landform: "알프스산맥, 도나우강 유역", climate: "고산 기후, 온대 기후, 냉대 기후", characteristics: ["알프스산맥의 아름다운 자연경관과 고풍스러운 음악의 도시로 유명합니다.", "산악 지형을 이용한 관광 산업과 겨울 스포츠가 활발합니다."], flag: "🇦🇹" },
+            "네덜란드": { continent: "유럽", landform: "국토의 상당 부분이 평지 및 간척지", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["국토의 많은 땅이 바다보다 낮아 제방과 풍차를 만들어 국토를 넓혔습니다.", "화훼(꽃) 산업과 낙농업, 자전거 이용 문화가 매우 발달했습니다."], flag: "🇳🇱" },
+            "뉴질랜드": { continent: "오세아니아", landform: "남알프스산맥, 화산 지형, 피오르 해안", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["아름답고 청정한 대자연이 잘 보관되어 영화 촬영지로 자주 쓰입니다.", "온화한 기후 속에서 양을 기르는 목축업과 낙농업이 발달했습니다."], flag: "🇳🇿" },
+            "이집트": { continent: "아프리카", landform: "나일강 유역, 사하라 사막", climate: "건조 기후", characteristics: ["국토 대부분이 비가 적게 내리는 사하라 사막으로 이루어져 있습니다.", "세계적인 고대 문명의 발상지인 피라미드와 스핑크스가 있습니다."], flag: "🇪🇬" },
+            "남아프리카 공화국": { continent: "아프리카", landform: "드라켄즈버그산맥, 테이블 마운틴", climate: "온대 기후, 건조 기후", characteristics: ["아프리카 대륙 최남단에 위치하며 다이아몬드와 금 등 광물 자원이 풍부합니다.", "다양한 인종과 문화가 어우러져 '무지개 나라'로 불립니다."], flag: "🇿🇦" },
+            "인도": { continent: "아시아", landform: "데칸고원, 갠지스강 유역, 히말라야산맥", climate: "열대 기후 (사바나 기후), 고산 기후, 건조 기후", characteristics: ["여름에는 비가 많이 내리는 계절풍(몬순)의 영향을 크게 받습니다.", "세계에서 인구가 매우 많으며 타지마할 등 오랜 문화유산이 있습니다."], flag: "🇮🇳" },
+            "베트남": { continent: "아시아", landform: "메콩강 삼각주, 안남산맥, 하롱베이", climate: "열대 기후 (열대 우림 및 사바나 기후)", characteristics: ["고온다습한 열대 기후로 쌀농사가 매우 발달해 있습니다.", "아름다운 해안 절경과 독특한 베트남 쌀국수 문화가 유명합니다."], flag: "🇻🇳" },
+            "태국": { continent: "아시아", landform: "짜오프라야강 평야, 북부 산지", climate: "열대 기후 (사바나 기후)", characteristics: ["일 년 내내 날씨가 더우며 우기와 건기가 뚜렷하게 나타납니다.", "불교 문화가 깊게 뿌리내려 있고 관광 산업이 매우 활발합니다."], flag: "🇹🇭" },
+            "인도네시아": { continent: "아시아", landform: "수많은 화산 섬, 열대 우림 지대", climate: "열대 기후 (열대 우림 기후)", characteristics: ["세계에서 섬이 가장 많은 나라로 화산 활동이 활발합니다.", "적수레와 밀림이 우거진 열대 우림 환경에서 농업이 이루어집니다."], flag: "🇮🇩" },
+            "필리핀": { continent: "아시아", landform: "7천 개 이상의 섬, 화산과 산지", climate: "열대 기후 (열대 우림 기후)", characteristics: ["따뜻하고 바다로 둘러싸인 섬나라로 아름다운 산호초 해변이 많습니다.", "계절에 따라 태풍(태풍의 영향)이 자주 지나가는 지역입니다."], flag: "🇵🇭" },
+            "말레이시아": { continent: "아시아", landform: "말레이 반도와 보르네오섬, 열대 밀림", climate: "열대 기후 (열대 우림 기후)", characteristics: ["국토 전체가 울창한 열대 우림으로 덮여 있으며 날씨가 무덥습니다.", "다양한 인종(말레이계, 중국계, 인도계)이 조화롭게 살아가고 있습니다."], flag: "🇲🇾" },
+            "싱가포르": { continent: "아시아", landform: "낮고 평탄한 도시 섬나라", climate: "열대 기후 (열대 우림 기후)", characteristics: ["도시 국가로 국토는 작지만 세계적인 무역과 금융의 중심지입니다.", "깨끗한 환경과 미래지향적인 정원 도시 건축물로 유명합니다."], flag: "🇸🇬" },
+            "멕시코": { continent: "아시아(북미)", landform: "멕시코 고원, 시에라마드레산맥", climate: "건조 기후, 온대 기후, 열대 기후", characteristics: ["고원 지대에 위치하여 위도에 비해 서늘하지만 지역별 기후 차이가 큽니다.", "고대 마야와 아스테크 문명의 흔적이 남아 있으며 타코가 유명합니다."], flag: "🇲🇽" },
+            "아르헨티나": { continent: "남아메리카", landform: "팜파스 초원, 안데스산맥", climate: "온대 기후, 건조 기후, 냉대 기후", characteristics: ["드넓고 비옥한 초원인 '팜파스'에서 소를 기르는 목축업이 발달했습니다.", "남미의 열정적인 탱고 춤과 축구로 매우 유명한 나라입니다."], flag: "🇦🇷" },
+            "칠레": { continent: "남아메리카", landform: "안데스산맥, 아타카마 사막", climate: "건조 기후, 온대 기후, 고산 기후", characteristics: ["남북으로 길쭉한 국토 모양을 지녀 북쪽은 사막, 남쪽은 빙하로 기후가 다양합니다.", "세계적인 구리 광산과 포도(와인) 생산지로 널리 알려져 있습니다."], flag: "🇨🇱" },
+            "페루": { continent: "남아메리카", landform: "안데스산맥 고원, 아마존 밀림", climate: "고산 기후, 건조 기후, 열대 기후", characteristics: ["안데스산맥의 높은 고산 지대에 위치한 고대 인카 문명의 유적 마추픽추가 있습니다.", "라마와 알파카 등 고산 지대에 적응한 동물들이 살고 있습니다."], flag: "🇵🇪" },
+            "콜롬비아": { continent: "남아메리카", landform: "안데스산맥이 세 갈래로 갈라지는 지형", climate: "열대 기후, 고산 기후", characteristics: ["적동 지역이지만 높은 산지(고산 기후)가 있어 서늘한 기온을 느낄 수 있습니다.", "품질 좋은 커피콩과 에메랄드 보석의 주요 생산국입니다."], flag: "🇨🇴" },
+            "러시아": { continent: "유럽·아시아", landform: "시베리아 평원, 우랄산맥, 광활한 타이가", climate: "냉대 기후, 한대 기후", characteristics: ["세계에서 국토 면적이 가장 넓으며 시베리아 지역은 겨울철에 매우 춥습니다.", "넓은 영토에 천연가스, 석유 등 지하 자원이 풍부하게 매장되어 있습니다."], flag: "🇷🇺" },
+            "그리스": { continent: "유럽", landform: "발칸반도 남부, 수많은 섬과 산지", climate: "온대 기후 (지중해성 기후)", characteristics: ["여름에는 덥고 건조하며 겨울에는 온화한 대표적인 지중해성 기후입니다.", "고대 그리스 문명의 발상지로 파르테논 신전 등 유적이 많습니다."], flag: "🇬🇷" },
+            "튀르키예": { continent: "아시아·유럽", landform: "아나톨리아 고원, 폰토스산맥", climate: "온대 기후 (지중해성 기후), 건조 기후", characteristics: ["아시아와 유럽을 잇는 관문 역할을 하며 독특한 역사적 문화를 지닙니다.", "카파도키아의 독특한 기암괴석과 열기구 투어로 유명합니다."], flag: "🇹🇷" },
+            "포르투갈": { continent: "유럽", landform: "이베리아반도 서쪽 해안, 테주강", climate: "온대 기후 (지중해성 기후)", characteristics: ["대서양과 맞닿아 있어 옛날부터 바다로 진출하는 항해술이 발달했습니다.", "코르크 나무의 세계 최대 생산국이자 아름다운 해안 도시가 많습니다."], flag: "🇵🇹" },
+            "덴마크": { continent: "유럽", landform: "유틀란드반도와 여러 섬들, 평탄한 지형", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["바다로 둘러싸인 평탄한 지형으로 낙농업과 풍력 발전이 매우 발달했습니다.", "동화작가 안데르센의 고향이자 자전거 타기가 일상화되어 있습니다."], flag: "🇩🇰" },
+            "아이슬란드": { continent: "유럽", landform: "빙하와 화산이 공존하는 섬 ('얼음과 불의 섬')", climate: "한대 기후, 냉대 기후", characteristics: ["화산 활동과 빙하가 함께 존재하여 온천과 간헐천이 매우 많습니다.", "지열과 수력 에너지를 이용해 친환경적인 전기를 생산합니다."], flag: "IS" },
+            "아일랜드": { continent: "유럽", landform: "중앙의 평원과 해안가의 낮은 산지", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["일 년 내내 비가 잦고 풀이 잘 자라 '에메랄드빛 초원의 나라'로 불립니다.", "목축업과 독창적인 전통 음악 및 문학 예술이 발달했습니다."], flag: "🇮🇪" },
+            "벨기에": { continent: "유럽", landform: "북부 평원과 남부 아르덴느 고원", climate: "온대 기후 (서안 해양성 기후)", characteristics: ["유럽의 중심에 위치하여 유럽연합(EU) 본부가 있는 정치·경제 요충지입니다.", "달콤한 초콜릿과 감자튀김(프렌치프라이)으로 널리 알려져 있습니다."], flag: "🇧🇪" },
+            "폴란드": { continent: "유럽", landform: "중부 유럽 평원, 비istula강", climate: "냉대 기후, 온대 기후", characteristics: ["국토가 넓은 평원으로 이루어져 있어 오랜 역사 동안 곡물 농업이 발달했습니다.", "쇼팽의 고향이며 역경을 딛고 일어선 깊은 역사적 이야기가 있습니다."], flag: "🇵🇱" },
+            "체코": { continent: "유럽", landform: "보헤미아 분지와 구릉지", climate: "냉대 기후, 온대 기후", characteristics: ["사방이 산으로 둘러싸인 분지 지형이며 아름다운 중세 건축물이 많습니다.", "세계적으로 이름난 맥주 문화와 유서 깊은 프라하 성이 유명합니다."], flag: "🇨🇿" },
+            "헝가리": { continent: "유럽", landform: "도나우강이 흐르는 대평원", climate: "온대 기후, 냉대 기후", characteristics: ["국토 중앙으로 도나우강이 흘러 비옥한 평야와 온천이 발달했습니다.", "독특한 언어와 매운 고추를 사용하는 향토 요리 문화가 있습니다."], flag: "🇭🇺" },
+            "우크라이나": { continent: "유럽", landform: "동유럽 대평원, 세계적인 비옥한 흑토 지대", climate: "냉대 기후, 온대 기후", characteristics: ["기름진 검은 흙(흑토)이 넓게 펼쳐져 있어 '유럽의 곡창지대'로 불립니다.", "밀과 옥수수 등 곡물 농업이 매우 활발하게 이루어집니다."], flag: "🇺🇦" },
+            "사우디아라비아": { continent: "아시아", landform: "아라비아반도 사막과 건조 고원", climate: "건조 기후", characteristics: ["비가 거의 내리지 않는 모래사막이 국토의 대부분을 차지합니다.", "세계에서 석유가 가장 많이 생산되는 나라 중 하나입니다."], flag: "🇸🇦" },
+            "아랍에미리트": { continent: "아시아", landform: "페르시아만 연안 사막과 해안 사구", climate: "건조 기후", characteristics: ["일년 내내 비가 거의 오지 않고 매우 더운 사막 기후입니다.", "사막 위에 두바이와 같은 화려한 최첨단 도시가 세워져 있습니다."], flag: "🇦🇪" },
+            "카타르": { continent: "아시아", landform: "페르시아만에 접한 평탄한 사막 반도", climate: "건조 기후", characteristics: ["여름철 기온이 매우 높고 비가 거의 내리지 않는 전형적인 사막입니다.", "풍부한 천연가스와 석유 자원을 바탕으로 빠르게 성장했습니다."], flag: "🇶🇦" },
+            "이스라엘": { continent: "아시아", landform: "요르단 계곡, 네게브 사막, 지중해 해안", climate: "건조 기후, 온대 기후", characteristics: ["국토의 상당 부분이 건조한 사막이거나 물이 부족한 지형입니다.", "물 부족을 극복하기 위한 첨단 물 절약 농업(점적 관수)이 발달했습니다."], flag: "🇮🇱" },
+            "베네수엘라": { continent: "남아메리카", landform: "오리노코강 유역, 안데스산맥 북부", climate: "열대 기후 (사바나 기후)", characteristics: ["고온다습한 열대 사바나 기후 속에서 넓은 초원(야노스)이 펼쳐집니다.", "세계 최고 수준의 막대한 석유 매장량을 보유하고 있습니다."], flag: "🇻🇪" },
+            "케냐": { continent: "아프리카", landform: "동아프리카 대지沟, 사바나 초원", climate: "열대 기후 (사바나 기후), 고산 기후", characteristics: ["넓고 드넓은 사바나 초원에 사자, 코끼리 등 수많은 야생동물이 살고 있습니다.", "적도 부근이지만 높은 고산 지대가 있어 서늘한 날씨를 보이기도 합니다."], flag: "🇰🇪" },
+            "탄자니아": { continent: "아프리카", landform: "세렝게티 초원, 킬리만자로산", climate: "열대 기후 (사바나 기후)", characteristics: ["아프리카 최고봉인 눈 덮인 킬리만자로산과 거대한 초원이 있습니다.", "세렝게티 국립공원에서 펼쳐지는 거대한 야생동물 대이동이 유명합니다."], flag: "🇹🇿" },
+            "마다가스카르": { continent: "아프리카", landform: "인도양의 거대한 섬, 고원과 열대림", climate: "열대 기후, 온대 기후", characteristics: ["오랫동안 육지와 떨어져 있어 세계에서 이곳에만 사는 여우원숭이 등 고유종이 많습니다.", "독특한 바오바브나무가 늘어선 신비로운 풍경을 자랑합니다."], flag: "🇲🇬" },
+            "모로코": { continent: "아프리카", landform: "아틀라스산맥, 사하라 사막 북부", climate: "건조 기후, 온대 기후 (지중해성)", characteristics: ["아프리카 북서쪽 끝에 위치하며 사막과 산지가 어우러져 있습니다.", "유럽과 아프리카의 문화가 섞인 알록달록한 전통 시장(메디나)이 유명합니다."], flag: "🇲🇦" },
+            "알제리": { continent: "아프리카", landform: "아틀라스산맥과 광활한 사하라사막", climate: "건조 기후, 온대 기후", characteristics: ["아프리카 대륙에서 면적이 가장 넓은 나라로 국토의 대부분이 사막입니다.", "지중해 연안 쪽은 온화한 온대 기후를 보여 사람들이 모여 삽니다."], flag: "🇩🇿" },
+            "가나": { continent: "아프리카", landform: "기니만 연안, 볼타강 유역 평야", climate: "열대 기후 (열대 우림 및 사바나 기후)", characteristics: ["일 년 내내 무덥고 비가 내리는 열대 기후 환경입니다.", "세계적인 카카오(초콜릿 원료) 생산지로 매우 유명합니다."], flag: "🇬🇭" },
+            "나이지리아": { continent: "아프리카", landform: "니제르강 삼각주, 열대 밀림과 사바나", climate: "열대 기후", characteristics: ["아프리카에서 인구가 가장 많은 나라 중 하나로 경제 성장 잠재력이 큽니다.", "지하에 풍부한 석유와 천연자원이 매장되어 있습니다."], flag: "🇳🇬" },
+            "에티오피아": { continent: "아프리카", landform: "동아프리카 고원 지대 (산악 지형)", climate: "고산 기후, 열대 기후", characteristics: ["적도 근처지만 고원 지대에 위치해 있어 1년 내내 봄처럼 선선한 날씨입니다.", "커피가 처음으로 발견된 원산지로 커피콩 재배가 활발합니다."], flag: "🇪🇹" },
+            "몽골": { continent: "아시아", landform: "고원 지대, 끝없이 펼쳐진 초원(스텝)과 사막", climate: "건조 기후, 냉대 기후", characteristics: ["비가 적게 내려 나무가 드문 대신 넓은 초원이 펼쳐져 있습니다.", "이동식 가옥인 '게르'에서 가축을 기르며 살아가는 유목민의 전통이 남아 있습니다."], flag: "🇲🇳" },
+            "카자흐스탄": { continent: "아시아", landform: "중앙아시아의 넓은 초원과 사막, 산맥", climate: "건조 기후, 냉대 기후", characteristics: ["세계에서 내륙 국가 중 면적이 가장 넓으며 초원과 사막이 교차합니다.", "지하에 석유와 다양한 광물 자원이 풍부하게 매장되어 있습니다."], flag: "🇰🇿" },
+            "우즈베키스탄": { continent: "아시아", landform: "사막과 오아시스, 티엔샨산맥 자락", climate: "건조 기후", characteristics: ["비가 적고 건조한 사막 기후이지만 오아시스 주변에서 농업이 발달했습니다.", "옛날 동서양을 잇는 실크로드의 중심지로 화려한 이슬람 유적이 많습니다."], flag: "🇺🇿" },
+            "파키스탄": { continent: "아시아", landform: "인더스강 유역 평야, 북부 고산 지대", climate: "건조 기후, 고산 기후, 열대 기후", characteristics: ["세계에서 세 번째로 높은 낭가파르바트 등 거대한 산맥들이 솟아 있습니다.", "인더스강의 물을 이용해 오랜 세월 동안 관개 농업이 발달했습니다."], flag: "🇵🇰" },
+            "방글라데시": { continent: "아시아", landform: "갠지스강과 브라마푸트라강의 거대한 삼각주", climate: "열대 기후 (사바나 및 몬순 기후)", characteristics: ["국토의 대부분이 강 하구의 평탄한 삼각주여서 홍수가 자주 발생합니다.", "고온다습한 기후 덕분에 벼농사와 황마(주트) 재배가 매우 활발합니다."], flag: "🇧🇩" },
+            "이란": { continent: "아시아", landform: "이란 고원, 엘부르즈산맥, 사막 지대", climate: "건조 기후, 고산 기후", characteristics: ["사방이 산으로 둘러싸인 높은 고원 지대에 위치하며 비가 적게 내립니다.", "페르시아 문명의 역사 깊은 유적과 세계적인 페르시아 카펫이 유명합니다."], flag: "🇮🇷" },
+            "이라크": { continent: "아시아", landform: "메소포타미아 평원 (티그리스강과 유프라테스강)", climate: "건조 기후", characteristics: ["인류 문명의 발상지인 메소포타미아 평야가 두 강 사이에 펼쳐져 있습니다.", "기후가 건조하지만 강 유역을 중심으로 비옥한 농경지가 있습니다."], flag: "🇮🇶" },
+            "대만": { continent: "아시아", landform: "중앙산맥이 가로지르는 섬 지형, 구릉", climate: "열대 기후, 온대 기후", characteristics: ["섬의 중앙에 높은 산들이 솟아 있으며 고온다습한 날씨를 보입니다.", "첨단 반도체 산업이 매우 발달해 있으며 맛있는 야시장 문화가 유명합니다."], flag: "🇹🇼" },
+            "홍콩": { continent: "아시아", landform: "구릉지와 수많은 섬으로 이루어진 해안 도시", climate: "온대 기후, 열대 기후", characteristics: ["좁은 국토에 높은 빌딩이 빽빽하게 들어선 세계적인 금융 무역 항구 도시입니다.", "동서양의 문화가 매력적으로 조화를 이루고 있습니다."], flag: "🇭🇰" },
+            "라오스": { continent: "아시아", landform: "산지와 메콩강이 흐르는 내륙국", climate: "열대 기후 (사바나 기후)", characteristics: ["국토 대부분이 울창한 산지와 숲으로 이루어진 바다가 없는 내륙 국가입니다.", "메콩강을 따라 평화로운 자연 풍경과 전통 불교 문화가 잘 보존되어 있습니다."], flag: "🇱🇦" },
+            "캄보디아": { continent: "아시아", landform: "메콩강 유역 평야와 거대한 톤레사프 호수", climate: "열대 기후 (사바나 기후)", characteristics: ["우기와 건기의 차이가 뚜렷하며 톤레사프 호수 주변에서 독특한 수상 생활이 발달했습니다.", "세계적인 유적지인 앙코르와트가 있는 역사 깊은 나라입니다."], flag: "🇰🇭" },
+            "미얀마": { continent: "아시아", landform: "아야아와디강 유역 평야와 북부 산지", climate: "열대 기후 (사바나 기후)", characteristics: ["계절풍의 영향으로 우기에 비가 집중적으로 내리는 열대 기후입니다.", "수많은 불교 사원(파고다)이 금빛으로 빛나는 아름다운 풍경을 지닙니다."], flag: "🇲🇲" },
+            "네팔": { continent: "아시아", landform: "히말라야산맥의 험준한 고산 지대", climate: "고산 기후, 온대 기후", characteristics: ["세계 최고봉인 에베레스트산을 비롯해 높은 산들이 국토에 걸쳐 있습니다.", "험난한 산악 지형을 탐험하려는 전 세계 등산객들의 발길이 끊이지 않습니다."], flag: "🇳🇵" },
+            "스리랑카": { continent: "아시아", landform: "인도양의 물방울 모양 섬, 중앙 산지", climate: "열대 기후 (열대 우림 및 사바나 기후)", characteristics: ["일 년 내내 따뜻하고 바다로 둘러싸인 아름다운 열대 섬나라입니다.", "세계적으로 유명한 홍차(실론티)의 주요 생산지입니다."], flag: "🇱🇰" },
+            "쿠바": { continent: "카리브해", landform: "카리브해의 섬나라, 평야와 구릉지", climate: "열대 기후", characteristics: ["따뜻하고 온화한 카리브해의 열대 해양성 기후를 지닙니다.", "클래식 자동차가 거리를 달리는 독특한 풍경과 시가(담배) 생산지로 유명합니다."], flag: "🇨🇺" },
+            "파나마": { continent: "중앙아메리카", landform: "북아메리카와 남아메리카를 잇는 좁은 지협", climate: "열대 기후", characteristics: ["태평양과 대서양을 연결하는 인공 바닷길인 파나마 운하가 위치한 교통 요충지입니다.", "일 년 내내 무덥고 비가 자주 내리는 열대 우림 환경입니다."], flag: "🇵🇦" },
+            "코스타리카": { continent: "중앙아메리카", landform: "화산과 열대 밀림이 어우러진 산악 지형", climate: "열대 기후, 고산 기후", characteristics: ["국토의 상당 부분을 국립공원으로 지정해 자연환경을 보호하는 환경 선진국입니다.", "다양한 동식물이 살아가는 울창한 열대 생태계가 잘 보존되어 있습니다."], flag: "🇨🇷" },
+            "우루과이": { continent: "남아메리카", landform: "완만한 언덕과 드넓은 초원 평야", climate: "온대 기후", characteristics: ["국토가 대서양에 접해 있고 온화한 온대 기후 속에서 소를 기르는 목축업이 발달했습니다.", "축구에 대한 열정이 매우 뜨겁고 남미에서 평화로운 나라로 꼽힙니다."], flag: "🇺🇾" },
+            "파라과이": { continent: "남아메리카", landform: "파라과이강을 경계로 한 평원과 삼림", climate: "온대 기후, 열대 기후", characteristics: ["남아메리카 내륙에 위치하여 바다가 없는 대신 넓은 강과 초원이 펼쳐져 있습니다.", "따뜻한 마테차를 즐겨 마시는 전통 문화가 있습니다."], flag: "🇵🇾" },
+            "볼리비아": { continent: "남아메리카", landform: "안데스산맥의 높은 고원 지대 (알티플라노)", climate: "고산 기후", characteristics: ["바다가 없으며 세계에서 높은 고원에 위치해 날씨가 서늘하고 공기가 희박합니다.", "하얀 소금 사막으로 유명한 '우유니 소금사막'이 있습니다."], flag: "🇧🇴" },
+            "에콰도르": { continent: "남아메리카", landform: "적도가 지나는 안데스산맥과 태평양 해안", climate: "열대 기후, 고산 기후", characteristics: ["적도 부근에 있지만 높은 산지(고산 기후)가 있어 봄 같은 날씨를 느낄 수 있습니다.", "다양한 고유 동식물이 사는 갈라파고스 제도가 속해 있습니다."], flag: "🇪🇨" },
+            "피지": { continent: "오세아니아", landform: "태평양 남서부의 수많은 화산 섬들", climate: "열대 기후", characteristics: ["따뜻하고 아름다운 산호초 바다가 펼쳐진 대표적인 남태평양 섬나라입니다.", "친절하고 밝은 미소를 지닌 원주민들의 전통 문화가 살아 있습니다."], flag: "🇫🇯" },
+            "루마니아": { continent: "유럽", landform: "카르파티아산맥과 도나우강 하구 델타", climate: "온대 기후, 냉대 기후", characteristics: ["험준한 산지와 울창한 숲이 어우러져 있으며 중세의 성들이 남아 있습니다.", "신비로운 드라큘라 전설의 배경이 된 브랜 성이 위치해 있습니다."], flag: "🇷🇴" },
+            "불가리아": { continent: "유럽", landform: "발칸산맥과 도나우강 평원", climate: "온대 기후, 냉대 기후", characteristics: ["발칸반도에 위치하며 산지와 계곡이 조화를 이루는 아름다운 자연입니다.", "향기로운 장미꽃이 많이 피어 '장미의 나라'와 요거트로 유명합니다."], flag: "🇧🇬" },
+            "크로아티아": { continent: "유럽", landform: "아드리아해의 아름다운 해안선과 카르스트 지형", climate: "온대 기후 (지중해성 기후)", characteristics: ["푸르고 맑은 아드리아해를 끼고 수많은 섬과 아름다운 해안 도시가 있습니다.", "에메랄드빛 호수와 폭포가 어우러진 플리트비체 국립공원이 유명합니다."], flag: "🇭🇷" },
+            "세르비아": { continent: "유럽", landform: "발칸반도 내륙의 평원과 구릉지", climate: "온대 기후, 냉대 기후", characteristics: ["도나우강이 흘러 비옥한 평야에서 농업과 과일 재배가 활발합니다.", "오랜 역사 속에서 다양한 문화가 어우러진 전통 민속 음악이 발달했습니다."], flag: "🇷🇸" },
+            "슬로바키아": { continent: "유럽", landform: "타트라산맥의 험준한 산지와 계곡", climate: "냉대 기후, 온대 기후", characteristics: ["국토가 산지로 둘러싸여 있어 겨울철 스키와 산악 등반이 유명합니다.", "아름다운 중세 성과 동굴들이 국토 곳곳에 잘 보존되어 있습니다."], flag: "🇸🇰" },
+            "슬로베니아": { continent: "유럽", landform: "알프스산맥 남쪽 자락과 동굴 지형", climate: "온대 기후, 고산 기후", characteristics: ["알프스와 지중해, 판노니아 평원이 만나는 아름답고 아담한 나라입니다.", "세계적으로 유명한 포스토이나 종유석 동굴이 위치해 있습니다."], flag: "🇸🇮" },
+            "에스토니아": { continent: "유럽", landform: "발트해 연안의 평탄한 지형과 수많은 섬", climate: "냉대 기후", characteristics: ["발트해 3국 중 북쪽에 위치하며 숲과 호수가 국토의 많은 부분을 차지합니다.", "세계에서 인터넷과 디지털 정부 시스템이 가장 잘 발달한 나라입니다."], flag: "🇪🇪" },
+            "라트비아": { continent: "유럽", landform: "발트해 리가만 연안의 평원과 숲", climate: "냉대 기후", characteristics: ["국토의 절반 가까이가 울창한 소나무 숲과 호수로 덮여 있습니다.", "아름다운 목조 건축물과 중세 분위기를 간직한 수도 리가가 유명합니다."], flag: "🇱🇻" },
+            "리투아니아": { continent: "유럽", landform: "발트해 동쪽의 모래 언덕과 평원", climate: "냉대 기후", characteristics: ["강과 호수가 많고 겨울에는 눈이 많이 내리는 추운 날씨를 보입니다.", "농업과 목축업이 발달했으며 독특한 호박(보석) 공예가 유명합니다."], flag: "🇱🇹" },
+            "벨라루스": { continent: "유럽", landform: "동유럽 평원의 낮은 구릉과 거대한 숲", climate: "냉대 기후", characteristics: ["유럽에서 원시림이 가장 잘 보존된 벨로베시 숲이 국경에 걸쳐 있습니다.", "평탄한 평원 지형에서 감자와 호밀 등 농산물 재배가 활발합니다."], flag: "🇧🇾" },
+            "조지아": { continent: "유럽·아시아", landform: "코카서스산맥의 험준한 산악 지형", climate: "고산 기후, 온대 기후", characteristics: ["험난한 캅카스산맥과 흑해를 끼고 있어 자연 경관이 매우 수려합니다.", "고대부터 와인을 만들어 온 세계에서 가장 오래된 와인 발상지입니다."], flag: "🇬🇪" },
+            "아르메니아": { continent: "아시아", landform: "코카서스 고원 지대의 산악 국가", climate: "고산 기후, 건조 기후", characteristics: ["높은 고산 지대에 위치해 겨울이 길고 눈이 많이 내리는 대륙성 기후입니다.", "세계에서 최초로 기독교를 국교로 공인한 오랜 역사를 지녔습니다."], flag: "🇦🇲" },
+            "아제르바이잔": { continent: "아시아", landform: "카스피해 연안 평원과 코카서스산맥 자락", climate: "건조 기후, 온대 기후", characteristics: ["카스피해와 맞닿아 있어 '불의 나라'라 불릴 만큼 석유와 천연가스가 풍부합니다.", "수도 바쿠에는 고대 유적과 미래형 초고층 빌딩이 공존합니다."], flag: "🇦🇿" },
+            "요르단": { continent: "아시아", landform: "요르단 계곡과 건조한 사막 고원", climate: "건조 기후", characteristics: ["국토의 대부분이 건조한 사막이며 비가 매우 적게 내립니다.", "붉은 사막 협곡 속에 깎아 지은 고대 유적 도시 페트라가 있습니다."], flag: "🇯🇴" },
+            "레바논": { continent: "아시아", landform: "레바논산맥과 지중해 해안", climate: "온대 기후 (지중해성 기후)", characteristics: ["지중해를 접하고 있어 온화하고 따뜻한 지중해성 기후가 나타납니다.", "국토에 울창했던 '레바논 삼나무(시다)'가 옛날부터 상징으로 유명합니다."], flag: "🇱🇧" },
+            "오만": { continent: "아시아", landform: "아라비아반도 동남부의 사막과 해안 산맥", climate: "건조 기후", characteristics: ["일 년 내내 날씨가 뜨겁고 건조하며 모래사막이 넓게 펼쳐져 있습니다.", "고대부터 향신료와 유향(향나무 진액) 무역의 중심지였습니다."], flag: "🇴🇲" },
+            "쿠웨이트": { continent: "아시아", landform: "페르시아만 연안의 평탄한 사막 지형", climate: "건조 기후", characteristics: ["비가 거의 오지 않고 여름철 기온이 매우 높아서 더운 사막 국가입니다.", "풍부한 석유 매장량을 바탕으로 현대적인 도시를 발전시켰습니다."], flag: "🇰🇼" },
+            "바레인": { continent: "아시아", landform: "페르시아만에 위치한 작은 섬나라", climate: "건조 기후", characteristics: ["바다로 둘러싸인 섬나라지만 비가 매우 적고 날씨가 무덥습니다.", "예로부터 천연 진주 채취와 중동의 금융 중심지로 유명합니다."], flag: "🇧🇭" },
+            "튀니지": { continent: "아프리카", landform: "아틀라스산맥 끝자락과 지중해 해안", climate: "온대 기후 (지중해성 기후), 건조 기후", characteristics: ["북아프리카 지중해 연안에 위치해 포도와 올리브가 잘 자라는 온화한 기후입니다.", "고대 카르타고의 역사 유적과 사막 영화 촬영지로 유명합니다."], flag: "🇹🇳" },
+            "세네갈": { continent: "아프리카", landform: "대서양 연안의 평원과 사바나 초원", climate: "열대 기후 (사바나 기후)", characteristics: ["서아프리카의 관문이며 우기와 건기가 뚜렷하게 나뉘는 사바나 기후입니다.", "아프리카에서 정치적으로 안정되어 있으며 따뜻한 환대의 문화가 있습니다."], flag: "🇸🇳" }
+        };
+
+        let currentRandomCandidate = "";
+
+        // Navigation Functions
+        function goHome() {
+            hideAllViews();
+            document.getElementById('home-view').classList.remove('hidden');
+        }
+
+        function openCustomInput() {
+            hideAllViews();
+            document.getElementById('custom-input-view').classList.remove('hidden');
+            document.getElementById('country-input').value = '';
+            document.getElementById('country-input').focus();
+        }
+
+        function startRandomPick() {
+            hideAllViews();
+            document.getElementById('random-picker-view').classList.remove('hidden');
+            pickRandomCountry();
+        }
+
+        function goBackToSelection() {
+            // Returns back to the selection screen they came from (let's default to home view or picker)
+            goHome();
+        }
+
+        function hideAllViews() {
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('custom-input-view').classList.add('hidden');
+            document.getElementById('random-picker-view').classList.add('hidden');
+            document.getElementById('result-view').classList.add('hidden');
+        }
+
+        function handleCustomKeyPress(event) {
+            if (event.key === 'Enter') {
+                submitCustomCountry();
+            }
+        }
+
+        function submitCustomCountry() {
+            const countryName = document.getElementById('country-input').value.trim();
+            if (!countryName) {
+                alert("나라 이름을 입력해 주세요!");
+                return;
+            }
+            displayCountryInfo(countryName);
+        }
+
+        function pickRandomCountry() {
+            const keys = Object.keys(countryDatabase);
+            const randomIndex = Math.floor(Math.random() * keys.length);
+            currentRandomCandidate = keys[randomIndex];
+            
+            // Cute shuffle animation effect
+            const displayEl = document.getElementById('random-display-name');
+            displayEl.style.opacity = '0.3';
+            displayEl.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                displayEl.innerText = currentRandomCandidate;
+                displayEl.style.opacity = '1';
+                displayEl.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function selectCurrentRandomCountry() {
+            displayCountryInfo(currentRandomCandidate);
+        }
+
+        function displayCountryInfo(countryName) {
+            // Find in database or generate a smart custom profile if not exact match
+            let data = countryDatabase[countryName];
+            
+            if (!data) {
+                // Smart fallback for any custom typed country not explicitly in the pre-list
+                data = {
+                    continent: "세계 여러 대륙",
+                    landform: `${countryName} 주변의 대표적인 평야, 산지 및 강 유역`,
+                    climate: "온대 기후, 냉대 기후",
+                    characteristics: [
+                        `이 나라만의 독특한 전통 문화와 자연경관이 어우러져 있습니다.`,
+                        `현지 주민들의 생활 방식과 기후에 알맞은 상품 아이디어를 구상하기 좋습니다.`
+                    ],
+                    flag: "🌍"
+                };
+            }
+
+            document.getElementById('result-flag').innerText = data.flag;
+            document.getElementById('result-continent').innerText = data.continent;
+            document.getElementById('result-country-name').innerText = countryName;
+            document.getElementById('result-landform').innerText = data.landform;
+            document.getElementById('result-climate').innerText = data.climate;
+
+            const charListEl = document.getElementById('result-characteristics');
+            charListEl.innerHTML = '';
+            data.characteristics.forEach(char => {
+                const li = document.createElement('li');
+                li.innerText = char;
+                charListEl.appendChild(li);
+            });
+
+            hideAllViews();
+            document.getElementById('result-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
